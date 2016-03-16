@@ -1,0 +1,365 @@
+{
+  "swagger":"2.0",
+  "basePath":"/",
+  "schemes":[
+    "http",
+    "https"
+  ],
+  "host":"192.168.10.158:1984",
+  "info":{
+    "description":"This documentations shows the different endpoint that can be called to use nViso Demo.",
+    "version":"1.0",
+    "title":"nViso Demo",
+    "contact":{
+      "email":"gael.lederrey@nviso.ch"
+    }
+  },
+  "paths":{
+    "/FR_Start":{
+      "get":{
+        "tags":[
+          "Demo"
+        ],
+        "operationId":"startDemo",
+        "description":"Start the demo. This will trigger the UI window.",
+        "summary":"Start the demo.",
+        "produces":[
+          "text/plain"
+        ],
+        "parameters":[
+
+        ],
+        "responses":{
+          "200":{
+            "description":"Success",
+            "schema":{
+              "type":"string"
+            }
+          }
+        }
+      }
+    },
+    "/FR_Stop":{
+      "get":{
+        "tags":[
+          "Demo"
+        ],
+        "operationId":"stopDemo",
+        "description":"Stop the demo. This will close the UI window.",
+        "summary":"Stop the demo.",
+        "produces":[
+          "text/plain"
+        ],
+        "parameters":[
+
+        ],
+        "responses":{
+          "200":{
+            "description":"Success",
+            "schema":{
+              "type":"string"
+            }
+          }
+        }
+      }
+    },
+    "/FR_Get":{
+      "get":{
+        "tags":[
+          "Demo"
+        ],
+        "operationId":"queryDemo",
+        "description":"Query the server for the demo that will return a JSON.",
+        "summary":"Query the server. Returns a JSON",
+        "produces":[
+          "application/json"
+        ],
+        "parameters":[
+          {
+            "name":"timelaps",
+            "in":"query",
+            "description":"It defines the time period in seconds from now to get the results. Time period: now-timelaps to now. Default is 5.0",
+            "required":false,
+            "type":"number",
+            "format":"double"
+          },
+          {
+            "name":"refwindow",
+            "in":"query",
+            "description":"Define the reference window in seconds. The EmotionChanged will be processed according to the reference window. WARNING: refwindow has to be greater than 0.0 and smaller than timelaps. Default is 1.0",
+            "required":false,
+            "type":"number",
+            "format":"double"
+          },
+          {
+            "name":"negchange",
+            "in":"query",
+            "description":"If set to 1, it will display the negative changes. Otherwise, all the negative changes will be set to 0. Default is 0",
+            "required":false,
+            "type":"integer",
+            "enum":[
+              0,
+              1
+            ]
+          },
+          {
+            "name":"yawthres",
+            "in":"query",
+            "description":"Threshold for the yaw. If the value for the yaw is bigger than the threshold, then the user is considerated as distracted. Default is 15.",
+            "required":false,
+            "type":"number",
+            "format":"double"
+          },
+          {
+            "name":"pitchthres",
+            "in":"query",
+            "description":"Threshold for the pitch. If the value for the pitch is bigger than the threshold, then the user is considerated as distracted. Default is 10.",
+            "required":false,
+            "type":"number",
+            "format":"double"
+          },
+          {
+            "name":"rollthres",
+            "in":"query",
+            "description":"Threshold for the roll. If the value for the roll is bigger than the threshold, then the user is considerated as distracted. WARNING: The roll value isn't working correctly. Default is 90.",
+            "required":false,
+            "type":"number",
+            "format":"double"
+          },
+          {
+            "name":"getpose",
+            "in":"query",
+            "description":"If set to 1, it will show the pose of the head. Default is 0",
+            "required":false,
+            "type":"integer",
+            "enum":[
+              0,
+              1
+            ]
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Success",
+            "schema":{
+              "type":"string"
+            }
+          }
+        }
+      }
+    },
+    "/FR_Annotate_Event":{
+      "get":{
+        "tags":[
+          "Demo"
+        ],
+        "operationId":"annotateEvent",
+        "description":"Annotate an event at a specific time. Used for the report.",
+        "summary":"Add an event.",
+        "produces":[
+          "text/plain"
+        ],
+        "parameters":[
+          {
+            "name":"start_ts",
+            "in":"query",
+            "description":"Time when the event happened. This value is in UNIX time, i.e. Number of seconds since Jan 01 1970. (UTC). Default is 0.",
+            "required":false,
+            "type":"integer"
+          },
+          {
+            "name":"start_ms",
+            "in":"query",
+            "description":"Number of milliseconds to complete the timestamp. Default is 0.",
+            "required":false,
+            "type":"integer"
+          },
+          {
+            "name":"distract",
+            "in":"query",
+            "description":"If set to 1, then the Event will be considered as a distraction. Default is 0",
+            "required":false,
+            "type":"integer",
+            "enum":[
+              0,
+              1
+            ]
+          },
+          {
+            "name":"annotate",
+            "in":"query",
+            "description":"Message of the Event. There is a default value for example purposes.",
+            "required":false,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Success",
+            "schema":{
+              "type":"string"
+            }
+          }
+        }
+      }
+    },
+    "/FR_Annotate_Period":{
+      "get":{
+        "tags":[
+          "Demo"
+        ],
+        "operationId":"annotatePeriod",
+        "description":"Annotate a period in a specific time period. Used for the report.",
+        "summary":"Add a period.",
+        "produces":[
+          "text/plain"
+        ],
+        "parameters":[
+          {
+            "name":"start_ts",
+            "in":"query",
+            "description":"Time when the period starts. This value is in UNIX time, i.e. Number of seconds since Jan 01 1970. (UTC). Default is 0.",
+            "required":false,
+            "type":"integer"
+          },
+          {
+            "name":"start_ms",
+            "in":"query",
+            "description":"Number of milliseconds to complete the starting timestamp. Default is 0.",
+            "required":false,
+            "type":"integer"
+          },
+          {
+            "name":"end_ts",
+            "in":"query",
+            "description":"Time when the period ends. This value is in UNIX time, i.e. Number of seconds since Jan 01 1970. (UTC). Default is 0.",
+            "required":false,
+            "type":"integer"
+          },
+          {
+            "name":"end_ms",
+            "in":"query",
+            "description":"Number of milliseconds to complete the ending timestamp. Default is 0.",
+            "required":false,
+            "type":"integer"
+          },
+          {
+            "name":"distract",
+            "in":"query",
+            "description":"If set to 1, then the Event will be considered as a distraction. Default is 0",
+            "required":false,
+            "type":"integer",
+            "enum":[
+              0,
+              1
+            ]
+          },
+          {
+            "name":"annotate",
+            "in":"query",
+            "description":"Message of the Event. There is a default value for example purposes.",
+            "required":false,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Success",
+            "schema":{
+              "type":"string"
+            }
+          }
+        }
+      }
+    },
+    "/FR_Generate_Report":{
+      "get":{
+        "tags":[
+          "Demo"
+        ],
+        "operationId":"generateReport",
+        "description":"Generate the report and returns a PNG file.",
+        "summary":"Generate the report. PNG returned.",
+        "produces":[
+          "multipart/form-data"
+        ],
+        "parameters":[
+          {
+            "name":"description",
+            "in":"query",
+            "description":"Description for the report. There is a default value for example purposes.",
+            "required":false,
+            "type":"string"
+          },
+          {
+            "name":"yawthres",
+            "in":"query",
+            "description":"Threshold for the yaw. If the value for the yaw is bigger than the threshold, then the user is considerated as distracted. Default is 15.",
+            "required":false,
+            "type":"number",
+            "format":"double"
+          },
+          {
+            "name":"pitchthres",
+            "in":"query",
+            "description":"Threshold for the pitch. If the value for the pitch is bigger than the threshold, then the user is considerated as distracted. Default is 10.",
+            "required":false,
+            "type":"number",
+            "format":"double"
+          },
+          {
+            "name":"rollthres",
+            "in":"query",
+            "description":"Threshold for the roll. If the value for the roll is bigger than the threshold, then the user is considerated as distracted. WARNING: The roll value isn't working correctly. Default is 90.",
+            "required":false,
+            "type":"number",
+            "format":"double"
+          },
+          {
+            "name":"aggr",
+            "in":"query",
+            "description":"If set to 1, it will aggregate/smooth the emotions on the report. Default is 1.",
+            "required":false,
+            "type":"integer",
+            "enum":[
+              0,
+              1
+            ]
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Success",
+            "schema":{
+              "type":"string"
+            }
+          }
+        }
+      }
+    },
+    "/FR_Shutdown":{
+      "post":{
+        "tags":[
+          "Demo"
+        ],
+        "operationId":"shutdownServer",
+        "description":"Shutdown the server. The processing cannot be restarted using FR_Start after using that command.",
+        "summary":"Shutdown the server.",
+        "produces":[
+          "text/plain"
+        ],
+        "parameters":[
+
+        ],
+        "responses":{
+          "200":{
+            "description":"Success",
+            "schema":{
+              "type":"string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
